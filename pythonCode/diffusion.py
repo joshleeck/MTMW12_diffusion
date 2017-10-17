@@ -24,10 +24,10 @@ def main():
     #Parameters
     xmin = 0
     xmax = 1
-    nx = 21
-    nt = 20
+    nx = 41
+    nt = 500
     dt = 0.1
-    K = 2e-3
+    K = 1e-3
     squareWaveMin = 0.4
     squareWaveMax = 0.6
     
@@ -58,7 +58,7 @@ def main():
     print("BTCS L2 error norm = ", L2ErrorNorm(phiBTCS, phiAnalytic))
     
     #Plot the solutions
-    font = {'size':20}
+    font = {'size':16}
     plt.rc('font', **font)
     plt.figure(1)
     plt.clf()
@@ -70,8 +70,20 @@ def main():
     plt.plot(x, phiBTCS, label='BTCS', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([0, 1])
-    plt.legend(bbox_to_anchor=(1.1, 1))
+    #plt.legend(bbox_to_anchor=(1.1, 1))
+    plt.legend(loc='upper left', prop={'size': 14})
     plt.xlabel('$x$')
-    #plt.savefig('plots/FTCS_BTCS.pdf')
+    plt.tight_layout()
+    #plt.savefig("C:\Users\Joshua\Desktop\FTCS_BTCS.png", 
+    #            format='png', dpi=600)
+    
+    plt.figure(2)
+    plt.plot(x, phiFTCS-phiAnalytic, 'r', label='FTCS error')
+    plt.plot(x, phiBTCS-phiAnalytic, 'b', label='BTCS error')
+    plt.legend(loc='upper left', prop={'size': 14})
+    plt.xlabel('$x$')
+    plt.tight_layout()
+    #plt.savefig("C:\Users\Joshua\Desktop\FTCS_BTCS_error.png", 
+    #            format='png', dpi=600)
     
 main()
