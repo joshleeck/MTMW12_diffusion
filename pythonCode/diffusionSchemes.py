@@ -21,7 +21,7 @@ def FTCS(phiOld, d, nt):
     for it in xrange(int(nt)):
         for x in xrange(1, nx-1):
             phi[x] = phiOld[x] + d*(phiOld[x+1] - 2*phiOld[x] + phiOld[x-1])
-        #Boundary conditions
+        #boundary conditions
         phi[0]  = phi[1]
         phi[nx-1] = phi[nx-2]
         phiOld = phi.copy()
