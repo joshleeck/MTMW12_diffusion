@@ -24,3 +24,17 @@ def squareWave(x,alpha,beta):
 
     return phi
 
+def naivesquareWave(x,alpha,beta):
+    
+    phi = np.zeros_like(x)
+    
+    # The grid spacing (assumed uniform)
+    dx = x[1] - x[0]
+    
+    # Set phi away from the end points (assume zero at the end points)
+    for j in xrange(1,len(x)-1):
+        if (x[j] < 0.6 and x[j] > 0.4):
+            phi[j] = 1
+        else:
+            phi[j] = 0
+    return phi

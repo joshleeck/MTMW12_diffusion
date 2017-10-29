@@ -15,8 +15,8 @@ import numpy as np
 from scipy import special
 
 def analyticErf(x, Kt, alpha, beta):
-    "The analytic solution of the 1d diffusion equation with diffuions"
-    "coeffienct K at time t assuming top-hat initial conditions which are"
+    "The analytic solution of the 1d diffusion equation with diffusion"
+    "coefficient K at time t assuming top-hat initial conditions which are"
     "one between alpha and beta and zero elsewhere"
     
     phi = 0.5 * special.erf((x-alpha)/np.sqrt(4*Kt))  \

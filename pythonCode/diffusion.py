@@ -25,9 +25,9 @@ def main():
     #Parameters
     xmin = 0
     xmax = 1
-    nx = 26
+    nx = 41
     nt = 100
-    dt = 0.2
+    dt = 0.1
     K = 1e-3
     squareWaveMin = 0.4
     squareWaveMax = 0.6
@@ -46,6 +46,7 @@ def main():
     print("x=", x)
     
     #Initial conditions
+    #phiOld = naivesquareWave(x, squareWaveMin, squareWaveMax)
     phiOld = squareWave(x, squareWaveMin, squareWaveMax)
     #Analytic solution (of square wave profile in an infinite domain)
     phiAnalytic = analyticErf(x, K*dt*nt, squareWaveMin, squareWaveMax)
@@ -78,18 +79,18 @@ def main():
     plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', 
              linewidth=2)
     plt.plot(x, phiFTCS, label='FTCS', color='blue')
-    #plt.plot(x, phiBTCS, label='BTCS', color='red')
+    plt.plot(x, phiBTCS, label='BTCS', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([0, 1])
     #plt.legend(bbox_to_anchor=(1.1, 1))
     plt.legend(loc='upper left', prop={'size': 14})
     plt.xlabel('$x$')
     plt.tight_layout()
-    #plt.savefig("C:\Users\Joshua\Desktop\FTCS_unstable.pdf")
+    #plt.savefig("C:\Users\Joshua\Desktop\initial_conditions_square.pdf")
     
     plt.figure(2)
     plt.plot(x, phiFTCS-phiAnalytic, 'b', label='FTCS error')
-    #plt.plot(x, phiBTCS-phiAnalytic, 'r', label='BTCS error')
+    plt.plot(x, phiBTCS-phiAnalytic, 'r', label='BTCS error')
     plt.legend(loc='upper left', prop={'size': 14})
     plt.xlabel('$x$')
     plt.tight_layout()
@@ -100,11 +101,12 @@ def FTCS_qn5(nx, dt):
     """
     This function performs the FTCS scheme without plotting.
     parameters nx: number of points in space
+               dt: timestep
     """
     #Parameters
     xmin = 0
     xmax = 1
-    nt = 4/dt       #keep end time fixed
+    nt = 4/dt     #keep end time fixed at 4 seconds
     K = 1e-3
     squareWaveMin = 0.4
     squareWaveMax = 0.6
@@ -112,9 +114,6 @@ def FTCS_qn5(nx, dt):
     #Derived Parameters
     dx = (xmax - xmin)/(nx - 1)
     d = K*dt/dx**2 #Non-dimensional diffusion coefficent
-    #print("non-dimensional diffusion coefficient = ", d)
-    #print("dx = ", dx, " dt = ", dt, " nt = ", nt)
-    #print("end time = ", nt*dt)
     
     #spatial points for plotting and for defining initial conditions
     x = np.zeros(nx)
@@ -158,20 +157,26 @@ def calc_order_of_convergence():
     dx_array  = [dx1, dx2, dx3]
 
     #formula for calculating order of convergence 
-    n = (log(abs(eps2)) - log(abs(eps1)))/        \
+    n1 = (log(abs(eps2)) - log(abs(eps1)))/        \
         (log(dx2) - log(dx1))
+        
+    n2 = (log(abs(eps3)) - log(abs(eps2)))/        \
+        (log(dx3) - log(dx2))
     
+    n = (n1 + n2)/2
+
     print ("Order of convergence is", n)
     
     #plot order of convergence
     plt.plot(dx_array,eps_array)
     plt.ylabel("Normalised RMS Error")
     plt.yscale('log')
+    plt.ylim(1e-5,1e-1)
     plt.xscale('log')
     plt.tight_layout()
     plt.xlabel(r'$\Delta$x (m)')
-    #plt.savefig("C:\Users\Joshua\Desktop\FTCS_order_of_convergence.pdf")
+    #plt.savefig("C:\Users\Joshua\Desktop\FTCS_order_of_convergence4.pdf")
     plt.show()
 
-calc_order_of_convergence()    
-#main()
+#calc_order_of_convergence()    
+main()
